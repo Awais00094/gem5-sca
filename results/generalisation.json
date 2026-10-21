@@ -1,0 +1,18 @@
+{
+  "zero_day_detection@5%FPR": {
+    "flush_reload": 1.0,
+    "prime_probe": 1.0,
+    "spectre": 1.0
+  },
+  "leave_one_family_out_recall": {
+    "flush_reload": 0.1267,
+    "prime_probe": 1.0,
+    "spectre": 1.0
+  },
+  "stealthiness_detection_by_mpki_quartile": {
+    "Q1(stealthiest)": 1.0,
+    "Q2": 1.0,
+    "Q3": 1.0,
+    "Q4(loudest)": 1.0
+  }
+}

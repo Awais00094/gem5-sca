@@ -1,0 +1,5 @@
+victim,leaky,n_runs,idx_unique,observable_values,mi_bits,success_rate,guessing_entropy_bits
+aes_ttable,True,100,47,15,4.0,0.0625,3.087
+aes_ct,False,50,1,1,0.0,0.00391,8.0
+rsa_sqmul,True,50,14,14,32.0,1.0,0.0
+chacha20,False,50,1,1,0.0,2.33e-10,32.0

@@ -1,0 +1,52 @@
+# JCEN experiment configuration
+# All paths are relative to the repo root unless absolute.
+
+gem5:
+  binary: /home/awais00094/Gem5/gem5/build/X86/gem5.opt
+  se_script: configs/se_run.py           # the SE-mode config script (Stage 1)
+
+# Microarchitecture sweep. Each entry becomes one simulated configuration.
+# The paper's cross-configuration transfer study iterates over these.
+cpu:
+  type: DerivO3CPU         # out-of-order; use TimingSimpleCPU for an in-order point
+  clock: "3GHz"
+  issue_width: 4
+
+memory_sweep:
+  - name: small
+    l1i: 32kB
+    l1d: 32kB
+    l1_assoc: 8
+    l2: 128kB
+    l2_assoc: 8
+    line_size: 64
+  - name: large
+    l1i: 32kB
+    l1d: 32kB
+    l1_assoc: 8
+    l2: 256kB
+    l2_assoc: 16
+    line_size: 64
+
+# Interval statistics dumping -> this is what gives the TEMPORAL features
+# that the PROOFS version did not have. Stats are dumped and reset every
+# `interval` ticks; each dump becomes one time step in the feature series.
+sampling:
+  interval_ticks: 10000000   # ~30k cycles/interval; 128 intervals span ~1.3G ticks
+  max_intervals: 2500        # high enough that every class runs to completion
+
+# Workload classes. `label` is the ground-truth family used for evaluation.
+workloads:
+  - { name: aes_ttable_fr,   victim: aes_ttable,  attacker: flush_reload, label: flush_reload }
+  - { name: aes_ttable_pp,   victim: aes_ttable,  attacker: prime_probe,  label: prime_probe  }
+  - { name: aes_ct_fr,       victim: aes_ct,      attacker: flush_reload, label: flush_reload }
+  - { name: rsa_sqmul_fr,    victim: rsa_sqmul,   attacker: flush_reload, label: flush_reload }
+  - { name: chacha20_pp,     victim: chacha20,    attacker: prime_probe,  label: prime_probe  }
+  - { name: spectre_v1,      victim: bounds_check, attacker: spectre_v1,  label: spectre      }
+  - { name: benign_matmul,   victim: matmul,      attacker: none,         label: benign      }
+  - { name: benign_memcpy,   victim: memcpy_loop, attacker: none,         label: benign      }
+
+# How many independent runs (different keys / seeds) per workload class.
+samples_per_class: 50
+
+seed: 20261019

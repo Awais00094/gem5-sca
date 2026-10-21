@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+data/raw/
+*.o
+workloads/bin/
+*.aux
+*.log
+*.blg
+*.out
+.DS_Store
